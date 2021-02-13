@@ -363,6 +363,11 @@ open class PhotoPickerFragment : DialogFragment() {
         fun onPollSelected()
     }
 
+    override fun onDestroy() {
+        listener?.onDestroy()
+        super.onDestroy()
+    }
+
     companion object {
         private const val KEY_MULTIPLE = "KEY_MULTIPLE"
         private const val KEY_ALLOW_CAMERA = "KEY_ALLOW_CAMERA"
@@ -393,8 +398,4 @@ open class PhotoPickerFragment : DialogFragment() {
         private fun getListener(args: Bundle) = args.getSerializable(KEY_LISTENER)
     }
 
-    override fun dismiss() {
-        listener?.onDismissed()
-        super.dismiss()
-    }
 }

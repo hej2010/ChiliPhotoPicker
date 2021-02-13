@@ -6,5 +6,5 @@ import java.io.Serializable;
 
 public interface PickerListener extends Serializable {
     void onViewCreated(View view);
-    void onDismissed();
+    void onDestroy();
 }

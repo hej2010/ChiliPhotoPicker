@@ -44,7 +44,7 @@ import lv.chi.photopicker.utils.CameraActivity
 import lv.chi.photopicker.utils.NonDismissibleBehavior
 import lv.chi.photopicker.utils.SpacingItemDecoration
 
-class PhotoPickerFragment : DialogFragment() {
+open class PhotoPickerFragment : DialogFragment() {
 
     private lateinit var photoAdapter: ImagePickerAdapter
 
@@ -53,6 +53,8 @@ class PhotoPickerFragment : DialogFragment() {
     private var behavior: BottomSheetBehavior<FrameLayout>? = null
 
     private var snackBar: Snackbar? = null
+
+    private var txtQuota: TextView? = null
 
     private val cornerRadiusOutValue = TypedValue()
 
@@ -109,8 +111,15 @@ class PhotoPickerFragment : DialogFragment() {
                 camera_container.isVisible = getAllowCamera(requireArguments())
                 gallery_container.setOnClickListener { pickImageGallery() }
                 camera_container.setOnClickListener { pickImageCamera() }
-                text_container.setOnClickListener { parentAs<Callback>()?.onTextSelected() }
-                poll_container.setOnClickListener { parentAs<Callback>()?.onPollSelected() }
+                txtQuota = findViewById(R.id.quota)
+                text_container.setOnClickListener {
+                    parentAs<Callback>()?.onTextSelected()
+                    dismiss()
+                }
+                poll_container.setOnClickListener {
+                    parentAs<Callback>()?.onPollSelected()
+                    dismiss()
+                }
                 findViewById<TextView>(R.id.grant).setOnClickListener { grantPermissions() }
 
                 pickerBottomSheetCallback.setMargin(
@@ -360,7 +369,7 @@ class PhotoPickerFragment : DialogFragment() {
             multiple: Boolean = false,
             allowCamera: Boolean = false,
             maxSelection: Int = SELECTION_UNDEFINED,
-            @StyleRes theme: Int = R.style.ChiliPhotoPicker_Light
+            @StyleRes theme: Int = R.style.ChiliPhotoPicker_Dark
         ) = PhotoPickerFragment().apply {
             arguments = bundleOf(
                 KEY_MULTIPLE to multiple,

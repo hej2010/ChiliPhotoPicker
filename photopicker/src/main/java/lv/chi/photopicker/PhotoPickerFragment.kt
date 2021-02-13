@@ -88,7 +88,11 @@ class PhotoPickerFragment : DialogFragment() {
             false
         )
             .apply {
-                contextWrapper.theme.resolveAttribute(R.attr.pickerCornerRadius, cornerRadiusOutValue, true)
+                contextWrapper.theme.resolveAttribute(
+                    R.attr.pickerCornerRadius,
+                    cornerRadiusOutValue,
+                    true
+                )
 
                 photos.apply {
                     adapter = photoAdapter
@@ -109,7 +113,11 @@ class PhotoPickerFragment : DialogFragment() {
                 poll_container.setOnClickListener { parentAs<Callback>()?.onPollSelected() }
                 findViewById<TextView>(R.id.grant).setOnClickListener { grantPermissions() }
 
-                pickerBottomSheetCallback.setMargin(requireContext().resources.getDimensionPixelSize(cornerRadiusOutValue.resourceId))
+                pickerBottomSheetCallback.setMargin(
+                    requireContext().resources.getDimensionPixelSize(
+                        cornerRadiusOutValue.resourceId
+                    )
+                )
             }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -185,7 +193,10 @@ class PhotoPickerFragment : DialogFragment() {
     private fun remeasureContentDialog() {
         coordinator.doOnLayout {
             val heightLp = design_bottom_sheet.layoutParams
-            heightLp.height = coordinator.measuredHeight + requireContext().resources.getDimensionPixelSize(cornerRadiusOutValue.resourceId)
+            heightLp.height =
+                coordinator.measuredHeight + requireContext().resources.getDimensionPixelSize(
+                    cornerRadiusOutValue.resourceId
+                )
             design_bottom_sheet.layoutParams = heightLp
         }
     }
@@ -241,7 +252,7 @@ class PhotoPickerFragment : DialogFragment() {
 
             val images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 
-            requireContext()
+            val c = requireContext()
                 .contentResolver
                 .query(
                     images,
@@ -249,7 +260,9 @@ class PhotoPickerFragment : DialogFragment() {
                     null,
                     null,
                     MediaStore.Images.Media.DATE_ADDED + " DESC"
-                ).let { vm.setPhotos(it)}
+                )
+            c.let { vm.setPhotos(it) }
+            c?.close()
         }
     }
 
@@ -276,6 +289,7 @@ class PhotoPickerFragment : DialogFragment() {
                 dismiss()
             }
         }
+
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             if (!needTransformation) return
             val calculatedSpacing = calculateSpacing(slideOffset)
@@ -295,7 +309,10 @@ class PhotoPickerFragment : DialogFragment() {
     }
 
     private fun pickImageCamera() {
-        startActivityForResult(CameraActivity.createIntent(requireContext()), Request.ADD_PHOTO_CAMERA)
+        startActivityForResult(
+            CameraActivity.createIntent(requireContext()),
+            Request.ADD_PHOTO_CAMERA
+        )
     }
 
     private fun pickImageGallery() {

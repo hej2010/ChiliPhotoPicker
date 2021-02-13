@@ -1,10 +1,9 @@
 package lv.chi.photopicker;
 
+import android.os.Parcelable;
 import android.view.View;
 
-import java.io.Serializable;
-
-public interface PickerListener extends Serializable {
+public interface PickerListener extends Parcelable {
     void onViewCreated(View view);
     void onDestroy();
 }

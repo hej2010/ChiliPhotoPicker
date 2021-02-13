@@ -105,6 +105,8 @@ class PhotoPickerFragment : DialogFragment() {
                 camera_container.isVisible = getAllowCamera(requireArguments())
                 gallery_container.setOnClickListener { pickImageGallery() }
                 camera_container.setOnClickListener { pickImageCamera() }
+                text_container.setOnClickListener { parentAs<Callback>()?.onTextSelected() }
+                poll_container.setOnClickListener { parentAs<Callback>()?.onPollSelected() }
                 findViewById<TextView>(R.id.grant).setOnClickListener { grantPermissions() }
 
                 pickerBottomSheetCallback.setMargin(requireContext().resources.getDimensionPixelSize(cornerRadiusOutValue.resourceId))
@@ -327,6 +329,8 @@ class PhotoPickerFragment : DialogFragment() {
 
     interface Callback {
         fun onImagesPicked(photos: ArrayList<Uri>)
+        fun onTextSelected()
+        fun onPollSelected()
     }
 
     companion object {

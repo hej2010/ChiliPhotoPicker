@@ -7,6 +7,8 @@
     <attr name="pickerControlColor" format="reference|color" />
     <attr name="pickerGalleryIcon" format="reference" />
     <attr name="pickerCameraIcon" format="reference" />
+    <attr name="pickerPollIcon" format="reference" />
+    <attr name="pickerTextIcon" format="reference" />
     <attr name="pickerCornerRadius" format="reference|dimension" />
     <attr name="pickerDividerColor" format="reference|color" />
 </resources>

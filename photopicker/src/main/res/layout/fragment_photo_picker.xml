@@ -22,6 +22,17 @@
             android:layout_height="match_parent"
             android:minHeight="256dp">
 
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/picker_title"
+                android:layout_margin="12dp"
+                android:textAppearance="@style/TextAppearance.PhotoPicker.Button"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <FrameLayout
                 android:id="@+id/gallery_container"
                 android:layout_width="0dp"
@@ -29,18 +40,18 @@
                 android:background="?selectableItemBackground"
                 app:layout_constraintEnd_toStartOf="@id/camera_container"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/title">
 
                 <TextView
                     android:id="@+id/gallery"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:drawableStart="?pickerGalleryIcon"
                     android:drawablePadding="14dp"
                     android:gravity="center"
                     android:text="@string/picker_gallery"
-                    android:textAppearance="@style/TextAppearance.PhotoPicker.Button" />
+                    android:textAppearance="@style/TextAppearance.PhotoPicker.Button"
+                    app:drawableStartCompat="?pickerGalleryIcon" />
             </FrameLayout>
 
             <FrameLayout
@@ -50,22 +61,64 @@
                 android:background="?selectableItemBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/gallery_container"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/title">
 
                 <TextView
                     android:id="@+id/camera"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:drawableStart="?pickerCameraIcon"
                     android:drawablePadding="14dp"
                     android:gravity="center"
                     android:text="@string/picker_camera"
-                    android:textAppearance="@style/TextAppearance.PhotoPicker.Button" />
+                    android:textAppearance="@style/TextAppearance.PhotoPicker.Button"
+                    app:drawableStartCompat="?pickerCameraIcon" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/text_container"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="?selectableItemBackground"
+                app:layout_constraintEnd_toStartOf="@id/poll_container"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/camera_container">
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:drawablePadding="14dp"
+                    android:gravity="center"
+                    android:text="@string/picker_text"
+                    android:textAppearance="@style/TextAppearance.PhotoPicker.Button"
+                    app:drawableStartCompat="?pickerTextIcon" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/poll_container"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="?selectableItemBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/text_container"
+                app:layout_constraintTop_toBottomOf="@id/camera_container">
+
+                <TextView
+                    android:id="@+id/poll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:drawablePadding="14dp"
+                    android:gravity="center"
+                    android:text="@string/picker_poll"
+                    android:textAppearance="@style/TextAppearance.PhotoPicker.Button"
+                    app:drawableStartCompat="?pickerPollIcon" />
             </FrameLayout>
 
             <View
-                android:id="@+id/barrier"
+                android:id="@+id/barrier2"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="?pickerDividerColor"
@@ -86,7 +139,7 @@
                 android:textColor="?attr/pickerPrimaryColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier" />
+                app:layout_constraintTop_toBottomOf="@+id/barrier2" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/photos"
@@ -99,7 +152,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier"
+                app:layout_constraintTop_toBottomOf="@+id/barrier2"
                 app:spanCount="3"
                 tools:listitem="@layout/view_pickable_image" />
 
@@ -107,9 +160,9 @@
                 layout="@layout/view_grant_permission"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/barrier2" />
 
             <ProgressBar
                 android:id="@+id/progressbar"
@@ -118,7 +171,7 @@
                 android:layout_marginTop="64dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barrier" />
+                app:layout_constraintTop_toBottomOf="@+id/barrier2" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

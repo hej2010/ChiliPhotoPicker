@@ -54,7 +54,9 @@ open class PhotoPickerFragment : DialogFragment() {
 
     private var snackBar: Snackbar? = null
 
-    private var txtQuota: TextView? = null
+    var txtQuota: TextView? = null
+
+    var listener: PickerListener? = null
 
     private val cornerRadiusOutValue = TypedValue()
 
@@ -73,6 +75,7 @@ open class PhotoPickerFragment : DialogFragment() {
             multiple = getAllowMultiple(requireArguments()),
             imageLoader = PickerConfiguration.getImageLoader()
         )
+        listener = getListener(requireArguments()) as PickerListener?
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -164,6 +167,7 @@ open class PhotoPickerFragment : DialogFragment() {
                 Toast.LENGTH_SHORT
             ).show()
         })
+        listener?.onViewCreated(view)
     }
 
     override fun onRequestPermissionsResult(
@@ -364,18 +368,21 @@ open class PhotoPickerFragment : DialogFragment() {
         private const val KEY_ALLOW_CAMERA = "KEY_ALLOW_CAMERA"
         private const val KEY_THEME = "KEY_THEME"
         private const val KEY_MAX_SELECTION = "KEY_MAX_SELECTION"
+        private const val KEY_LISTENER = "KEY_LISTENER"
 
         fun newInstance(
             multiple: Boolean = false,
             allowCamera: Boolean = false,
             maxSelection: Int = SELECTION_UNDEFINED,
-            @StyleRes theme: Int = R.style.ChiliPhotoPicker_Dark
+            @StyleRes theme: Int = R.style.ChiliPhotoPicker_Dark,
+            listener: PickerListener
         ) = PhotoPickerFragment().apply {
             arguments = bundleOf(
                 KEY_MULTIPLE to multiple,
                 KEY_ALLOW_CAMERA to allowCamera,
                 KEY_MAX_SELECTION to maxSelection,
-                KEY_THEME to theme
+                KEY_THEME to theme,
+                KEY_LISTENER to listener
             )
         }
 
@@ -383,5 +390,11 @@ open class PhotoPickerFragment : DialogFragment() {
         private fun getAllowCamera(args: Bundle) = args.getBoolean(KEY_ALLOW_CAMERA)
         private fun getAllowMultiple(args: Bundle) = args.getBoolean(KEY_MULTIPLE)
         private fun getMaxSelection(args: Bundle) = args.getInt(KEY_MAX_SELECTION)
+        private fun getListener(args: Bundle) = args.getSerializable(KEY_LISTENER)
+    }
+
+    override fun dismiss() {
+        listener?.onDismissed()
+        super.dismiss()
     }
 }

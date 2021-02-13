@@ -20,12 +20,21 @@ class MainActivity : AppCompatActivity(), PhotoPickerFragment.Callback {
         picked_url.text = photos.joinToString(separator = "\n") { it.toString() }
     }
 
+    override fun onTextSelected() {
+        //
+    }
+
+    override fun onPollSelected() {
+        //
+    }
+
     private fun openPicker() {
         PhotoPickerFragment.newInstance(
             multiple = true,
             allowCamera = true,
             maxSelection = 5,
-            theme = R.style.ChiliPhotoPicker_Dark
+            theme = R.style.ChiliPhotoPicker_Dark,
+            null
         ).show(supportFragmentManager, "picker")
     }
 }

@@ -58,6 +58,8 @@ open class PhotoPickerFragment : DialogFragment() {
 
     var listener: PickerListener? = null
 
+    var lastClick = 0L
+
     private val cornerRadiusOutValue = TypedValue()
 
     private lateinit var contextWrapper: ContextThemeWrapper
@@ -112,16 +114,32 @@ open class PhotoPickerFragment : DialogFragment() {
                 }
 
                 camera_container.isVisible = getAllowCamera(requireArguments())
-                gallery_container.setOnClickListener { pickImageGallery() }
-                camera_container.setOnClickListener { pickImageCamera() }
+                gallery_container.setOnClickListener {
+                    if (System.currentTimeMillis() - lastClick > 1000) {
+                        pickImageGallery()
+                        lastClick = System.currentTimeMillis()
+                    }
+                }
+                camera_container.setOnClickListener {
+                    if (System.currentTimeMillis() - lastClick > 1000) {
+                        pickImageCamera()
+                        lastClick = System.currentTimeMillis()
+                    }
+                }
                 txtQuota = findViewById(R.id.quota)
                 text_container.setOnClickListener {
-                    parentAs<Callback>()?.onTextSelected()
-                    dismiss()
+                    if (System.currentTimeMillis() - lastClick > 1000) {
+                        parentAs<Callback>()?.onTextSelected()
+                        dismiss()
+                        lastClick = System.currentTimeMillis()
+                    }
                 }
                 poll_container.setOnClickListener {
-                    parentAs<Callback>()?.onPollSelected()
-                    dismiss()
+                    if (System.currentTimeMillis() - lastClick > 1000) {
+                        parentAs<Callback>()?.onPollSelected()
+                        dismiss()
+                        lastClick = System.currentTimeMillis()
+                    }
                 }
                 findViewById<TextView>(R.id.grant).setOnClickListener { grantPermissions() }
 
@@ -380,7 +398,7 @@ open class PhotoPickerFragment : DialogFragment() {
             allowCamera: Boolean = false,
             maxSelection: Int = SELECTION_UNDEFINED,
             @StyleRes theme: Int = R.style.ChiliPhotoPicker_Dark,
-            listener: PickerListener
+            listener: PickerListener?
         ) = PhotoPickerFragment().apply {
             arguments = bundleOf(
                 KEY_MULTIPLE to multiple,

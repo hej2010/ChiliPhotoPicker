@@ -77,7 +77,7 @@ open class PhotoPickerFragment : DialogFragment() {
             multiple = getAllowMultiple(requireArguments()),
             imageLoader = PickerConfiguration.getImageLoader()
         )
-        listener = getListener(requireArguments()) as PickerListener?
+        listener = getListener()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -391,29 +391,34 @@ open class PhotoPickerFragment : DialogFragment() {
         private const val KEY_ALLOW_CAMERA = "KEY_ALLOW_CAMERA"
         private const val KEY_THEME = "KEY_THEME"
         private const val KEY_MAX_SELECTION = "KEY_MAX_SELECTION"
-        private const val KEY_LISTENER = "KEY_LISTENER"
+
+        private var listener2: PickerListener? = null
 
         fun newInstance(
             multiple: Boolean = false,
             allowCamera: Boolean = false,
             maxSelection: Int = SELECTION_UNDEFINED,
             @StyleRes theme: Int = R.style.ChiliPhotoPicker_Dark,
-            listener: PickerListener?
+            listener: PickerListener? // TODO error, not serializable
         ) = PhotoPickerFragment().apply {
             arguments = bundleOf(
                 KEY_MULTIPLE to multiple,
                 KEY_ALLOW_CAMERA to allowCamera,
                 KEY_MAX_SELECTION to maxSelection,
-                KEY_THEME to theme,
-                KEY_LISTENER to listener
+                KEY_THEME to theme
             )
+            listener2 = listener
+        }
+
+        fun setListener(listener: PickerListener?) {
+            this.listener2 = listener
         }
 
         private fun getTheme(args: Bundle) = args.getInt(KEY_THEME)
         private fun getAllowCamera(args: Bundle) = args.getBoolean(KEY_ALLOW_CAMERA)
         private fun getAllowMultiple(args: Bundle) = args.getBoolean(KEY_MULTIPLE)
         private fun getMaxSelection(args: Bundle) = args.getInt(KEY_MAX_SELECTION)
-        private fun getListener(args: Bundle) = args.getSerializable(KEY_LISTENER)
+        private fun getListener() = listener2
     }
 
 }

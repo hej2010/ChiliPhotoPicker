@@ -124,7 +124,7 @@
                 android:background="?pickerDividerColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gallery_container" />
+                app:layout_constraintTop_toBottomOf="@+id/text_container" />
 
             <TextView
                 android:id="@+id/empty_text"

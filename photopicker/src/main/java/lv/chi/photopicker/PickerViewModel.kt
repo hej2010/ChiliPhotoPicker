@@ -1,5 +1,6 @@
 package lv.chi.photopicker
 
+import android.content.ContentUris
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
@@ -50,9 +51,10 @@ internal class PickerViewModel : ViewModel() {
     fun setPhotos(cursor: Cursor?) {
         cursor?.let { c ->
             val array = arrayListOf<SelectableImage>()
+            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
             array.addAll(
                 generateSequence { if (c.moveToNext()) c else null }
-                    .map { readValueAtCursor(cursor) }
+                    .map { readValueAtCursor(cursor, idColumn) }
                     .toList()
             )
             hasContentData.postValue(array.isNotEmpty())
@@ -89,10 +91,11 @@ internal class PickerViewModel : ViewModel() {
 
     private fun canSelectMore(size: Int) = maxSelectionCount == SELECTION_UNDEFINED || maxSelectionCount > size
 
-    private fun readValueAtCursor(cursor: Cursor): SelectableImage {
-        val id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
-        val uri = "file://${cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA))}"
-        return SelectableImage(id, Uri.parse(uri), false)
+    private fun readValueAtCursor(cursor: Cursor, idColumn: Int): SelectableImage {
+        val id = cursor.getLong(idColumn)
+        val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+        //val uri = "file://${cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA))}"
+        return SelectableImage(idColumn, uri, false)
     }
 
     companion object {

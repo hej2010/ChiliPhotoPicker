@@ -275,10 +275,10 @@ open class PhotoPickerFragment : DialogFragment() {
         vm.setInProgress(true)
         GlobalScope.launch(Dispatchers.IO) {
             val projection = arrayOf(
-                MediaStore.Images.Media._ID,
-                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-                MediaStore.Images.Media.DATA,
-                MediaStore.Images.Media.DATE_ADDED
+                MediaStore.Images.Media._ID
+                //MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+                //MediaStore.Images.Media.DATA,
+                //MediaStore.Images.Media.DATE_ADDED
             )
 
             val images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI

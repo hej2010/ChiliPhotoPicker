@@ -95,7 +95,7 @@ internal class PickerViewModel : ViewModel() {
         val id = cursor.getLong(idColumn)
         val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
         //val uri = "file://${cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA))}"
-        return SelectableImage(idColumn, uri, false)
+        return SelectableImage(id, uri, false)
     }
 
     companion object {
